@@ -2,7 +2,6 @@
 
 #load libraries
 library(tidyverse)
-library(MODIStsp)
 library(rgeoboundaries)
 library(sf)
 library(raster)
@@ -22,6 +21,7 @@ spatial_filepath <- "LandCoverData/haiti.shp"
 # Saving downloaded spatial file on  our computer
 st_write(map_boundary, paste0(spatial_filepath), append = FALSE)
 
+library(MODIStsp)
 MODIStsp(gui = FALSE
          , out_folder = "LandCoverData"
          , out_folder_mod = "LandCoverData"
@@ -29,13 +29,12 @@ MODIStsp(gui = FALSE
          , bandsel = "LC1"
          , user = "briancalhoon"
          , password = "00h0OqKWDw$67R"
-         , start_date = "2021.01.01"
-         , end_date = "2021.11.14"
+         , start_date = "2020.01.01"
+         , end_date = "2020.12.31"
          , verbose = FALSE
          , spatmeth = "file"
          , spafile = spatial_filepath
-         , out_format = "GTiff"
-         , parallel = FALSE)
+         , out_format = "GTiff")
 
 
 # Downloading the boundary of Haiti

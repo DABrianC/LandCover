@@ -27,14 +27,15 @@ MODIStsp(gui = FALSE
          , out_folder_mod = "LandCoverData"
          , selprod = "LandCover_Type_Yearly_500m (MCD12Q1)"
          , bandsel = "LC1"
-         , use = "briancalhoon"
+         , user = "briancalhoon"
          , password = "00h0OqKWDw$67R"
          , start_date = "2020.01.01"
          , end_date = "2020.12.31"
          , verbose = FALSE
          , spatmeth = "file"
          , spafile = spatial_filepath
-         , out_format = "GTIFF")
+         , out_format = "GTiff"
+         , parallel = FALSE)
 
 
 # Downloading the boundary of Zimbabwe

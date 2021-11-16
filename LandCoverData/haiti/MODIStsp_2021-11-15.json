@@ -15,10 +15,10 @@
   "end_date": "2020.12.31",
   "date_seas": "Full",
   "spatmeth": "file",
-  "start_x": 11,
-  "end_x": 23,
-  "start_y": 3,
-  "end_y": 11,
+  "start_x": 10,
+  "end_x": 11,
+  "start_y": 6,
+  "end_y": 7,
   "bbox": [null, null, null, null],
   "spafile": null,
   "drawnext": null,
@@ -36,7 +36,7 @@
     "R RasterStack"
   ],
   "compress": "LZW",
-  "out_folder": "LandCoverData/france",
+  "out_folder": "LandCoverData/haiti",
   "out_folder_mod": "LandCoverData",
   "MODIStspVersion": "2.0.0"
 }

@@ -16,7 +16,11 @@ library(extrafontdb)
 
 MODIStsp_get_prodlayers("MCD12Q1")
 
-map_boundary <- geoboundaries("Haiti")
+map_boundary1 <- geoboundaries("HTI")
+map_boundary2 <- geoboundaries("DOM")
+
+map_boundary <- rbind(map_boundary1, map_boundary2)
+
 
 # Defining filepath to save downloaded spatial file
 spatial_filepath <- "LandCoverData/haiti.shp"
@@ -76,22 +80,31 @@ library(rnaturalearth)
 library(rnaturalearthdata)
 library(rnaturalearthhires)
 
-map_boundary <- rnaturalearth::ne_countries(country = c("Haiti"
-                                                        , "Dominican Republic")
-                                            , returnclass = "sf")
+ocean10 <- ne_download(scale = 10, type = 'ocean', category = 'physical'
+                        , returnclass = "sf")
+plot(ocean10)
 
 
-water <- rnaturalearth::ne_coastline(scale = 10
-                                     , returnclass = "sf")
+bbox <- st_bbox(map_boundary)
+bbox <- c(xmin = bbox[1]-1
+          , ymin = bbox[2]-1
+          , xmax = bbox[3] + 1
+          , ymax = bbox[4] +1)
 
-water <- sf::st_crop(water, map_boundary)
 
 
+ocean_crop <- st_crop(ocean10, st_bbox(map_boundary))
+st_bbox(ocean10)
+
+attr(st_geometry(ocean10), "bbox") = bbox
+
+st_bbox(ocean10)
+
+plot(ocean10)
 
 # Visualising using ggplot2
 p <- ggplot() + 
-  geom_sf(data = water, geometry = geometry) +
-  geom_raster(data = IGBP_df,
+    geom_raster(data = IGBP_df,
               aes(x = x, y = y, fill = MCD12Q1_LC1_2019_001)) +
   geom_sf(data = map_boundary, inherit.aes = FALSE, fill = NA) +
   scale_fill_viridis(name = "Land Cover Type", discrete = TRUE) +
@@ -100,7 +113,11 @@ p <- ggplot() +
        x = "Longitude",
        y = "Latitude"
        , caption = ) +
-  theme_void() 
+  theme_void() +
+  theme(panel.background = element_rect(fill = "lightblue",
+                                        colour = "lightblue",
+                                        size = 0.5, linetype = "solid")
+       )
   
   png("Haiti.png")
   print(p)

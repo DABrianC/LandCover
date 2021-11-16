@@ -69,8 +69,28 @@ levels(IGBP_df$MCD12Q1_LC1_2019_001) <- c( "Evergreen needleleaf forests",
                                            "Snow and ice",
                                            "Barren",
                                            "Water bodies")
+
+
+#Download background map
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(rnaturalearthhires)
+
+map_boundary <- rnaturalearth::ne_countries(country = c("Haiti"
+                                                        , "Dominican Republic")
+                                            , returnclass = "sf")
+
+
+water <- rnaturalearth::ne_coastline(scale = 10
+                                     , returnclass = "sf")
+
+water <- sf::st_crop(water, map_boundary)
+
+
+
 # Visualising using ggplot2
 p <- ggplot() + 
+  geom_sf(data = water, geometry = geometry) +
   geom_raster(data = IGBP_df,
               aes(x = x, y = y, fill = MCD12Q1_LC1_2019_001)) +
   geom_sf(data = map_boundary, inherit.aes = FALSE, fill = NA) +
@@ -80,7 +100,7 @@ p <- ggplot() +
        x = "Longitude",
        y = "Latitude"
        , caption = ) +
-  theme_void() +
+  theme_void() 
   
   png("Haiti.png")
   print(p)

@@ -20,7 +20,7 @@ map_boundary <- geoboundaries("Haiti")
 # Defining filepath to save downloaded spatial file
 spatial_filepath <- "LandCoverData/haiti.shp"
 # Saving downloaded spatial file on  our computer
-st_write(map_boundary, paste0(spatial_filepath))
+st_write(map_boundary, paste0(spatial_filepath), append = FALSE)
 
 MODIStsp(gui = FALSE
          , out_folder = "LandCoverData"
@@ -29,8 +29,8 @@ MODIStsp(gui = FALSE
          , bandsel = "LC1"
          , user = "briancalhoon"
          , password = "00h0OqKWDw$67R"
-         , start_date = "2020.01.01"
-         , end_date = "2020.12.31"
+         , start_date = "2021.01.01"
+         , end_date = "2021.11.14"
          , verbose = FALSE
          , spatmeth = "file"
          , spafile = spatial_filepath
@@ -38,7 +38,7 @@ MODIStsp(gui = FALSE
          , parallel = FALSE)
 
 
-# Downloading the boundary of Zimbabwe
+# Downloading the boundary of Haiti
 map_boundary <- geoboundaries("Haiti")
 
 # Reading in the downloaded landcover raster data

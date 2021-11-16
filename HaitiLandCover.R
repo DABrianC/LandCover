@@ -16,10 +16,8 @@ library(extrafontdb)
 
 MODIStsp_get_prodlayers("MCD12Q1")
 
-map_boundary1 <- geoboundaries("HTI")
-map_boundary2 <- geoboundaries("DOM")
+map_boundary<- geoboundaries("HTI")
 
-map_boundary <- rbind(map_boundary1, map_boundary2)
 
 
 # Defining filepath to save downloaded spatial file
@@ -75,51 +73,44 @@ levels(IGBP_df$MCD12Q1_LC1_2019_001) <- c( "Evergreen needleleaf forests",
                                            "Water bodies")
 
 
-#Download background map
-library(rnaturalearth)
-library(rnaturalearthdata)
-library(rnaturalearthhires)
-
-ocean10 <- ne_download(scale = 10, type = 'ocean', category = 'physical'
-                        , returnclass = "sf")
-plot(ocean10)
-
-
-bbox <- st_bbox(map_boundary)
-bbox <- c(xmin = bbox[1]-1
-          , ymin = bbox[2]-1
-          , xmax = bbox[3] + 1
-          , ymax = bbox[4] +1)
-
-
-
-ocean_crop <- st_crop(ocean10, st_bbox(map_boundary))
-st_bbox(ocean10)
-
-attr(st_geometry(ocean10), "bbox") = bbox
-
-st_bbox(ocean10)
-
-plot(ocean10)
-
 # Visualising using ggplot2
 p <- ggplot() + 
     geom_raster(data = IGBP_df,
               aes(x = x, y = y, fill = MCD12Q1_LC1_2019_001)) +
   geom_sf(data = map_boundary, inherit.aes = FALSE, fill = NA) +
   scale_fill_viridis(name = "Land Cover Type", discrete = TRUE) +
-  labs(title = "Land Cover Classification in Haiti",
-       subtitle = "January 1, 2019 - December 31, 2019",
-       x = "Longitude",
-       y = "Latitude"
-       , caption = ) +
+  labs(title = "Land Cover\nClassification\nin Haiti",
+      subtitle = "January 1, 2019 - December 31, 2019",
+      x = "Longitude",
+      y = "Latitude"
+      , caption = "Author: Brian Calhoon | Data: MODIS | Packages: rgeoboundaries, MODIStsp") +
   theme_void() +
-  theme(panel.background = element_rect(fill = "lightblue",
-                                        colour = "lightblue",
+  theme(panel.background = element_rect(fill = "#E7CEC8",
+                                        colour = "#E7CEC8",
                                         size = 0.5, linetype = "solid")
-       )
-  
-  png("Haiti.png")
+        , plot.title.position = "plot"
+        , plot.title = element_text(size = 44
+                                    , family = "Corbel"
+                                    , color = "#04366D"
+                                    , vjust = - 20)
+        , plot.subtitle = element_text(size = 28
+                                       , family = "Corbel"
+                                       , color = "#0960BE"
+                                       , vjust = -35)
+        #, legend.position = "bottom"
+        , legend.title = ggplot2::element_text(size = 20
+                                               , family = "Corbel"
+                                               , color = "#000000")
+        , legend.key.size = unit(1.5, "cm")
+        , legend.text = ggplot2::element_text(size = 16
+                                             , family = "Corbel"
+                                             , color = "#000000")
+        , plot.caption = ggplot2::element_text(size = 16, family = "Corbel", color = "#04366D")) +
+  guides(color=guide_legend(ncol=2))
+  png("Haiti.png"
+      , width = 1080
+      , height = 1080
+      , unit = "px")
   print(p)
   dev.off()
 

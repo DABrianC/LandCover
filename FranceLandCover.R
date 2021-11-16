@@ -15,10 +15,10 @@ library(viridis)
 
 MODIStsp_get_prodlayers("MCD12Q1")
 
-map_boundary <- geoboundaries("France")
+map_boundary <- geoboundaries("Haiti")
 
 # Defining filepath to save downloaded spatial file
-spatial_filepath <- "LandCoverData/france.shp"
+spatial_filepath <- "LandCoverData/haiti.shp"
 # Saving downloaded spatial file on  our computer
 st_write(map_boundary, paste0(spatial_filepath))
 
@@ -38,10 +38,10 @@ MODIStsp(gui = FALSE
 
 
 # Downloading the boundary of Zimbabwe
-map_boundary <- geoboundaries("Zimbabwe")
+map_boundary <- geoboundaries("Haiti")
 
 # Reading in the downloaded landcover raster data
-IGBP_raster <- raster(here::here("LandCoverData/france/LandCover_Type_Yearly_500m_v6/LC1/MCD12Q1_LC1_2020_001.tif"))
+IGBP_raster <- raster(here::here("LandCoverData/haiti/LandCover_Type_Yearly_500m_v6/LC1/MCD12Q1_LC1_2020_001.tif"))
 
 # Transforming data
 IGBP_raster <- projectRaster(IGBP_raster, crs = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
@@ -77,8 +77,8 @@ ggplot() +
               aes(x = x, y = y, fill = MCD12Q1_LC1_2020_001)) +
   geom_sf(data = map_boundary, inherit.aes = FALSE, fill = NA) +
   scale_fill_viridis(name = "Land Cover Type", discrete = TRUE) +
-  labs(title = "Land Cover classification in France",
-       subtitle = "1 janvier 2020 - 21 decembre 2020",
+  labs(title = "Land Cover Classification in Haiti",
+       subtitle = "January 1, 2020 - December 31, 2020",
        x = "Longitude",
        y = "Latitude") +
   theme_minimal()

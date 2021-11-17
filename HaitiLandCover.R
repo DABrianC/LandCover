@@ -97,11 +97,10 @@ p <- ggplot() +
                                        , family = "Corbel"
                                        , color = "#0960BE"
                                        , vjust = -35)
-        #, legend.position = "bottom"
         , legend.title = ggplot2::element_text(size = 20
                                                , family = "Corbel"
                                                , color = "#000000")
-        , legend.key.size = unit(1.5, "cm")
+        , legend.key.size = unit(1, "cm")
         , legend.text = ggplot2::element_text(size = 16
                                              , family = "Corbel"
                                              , color = "#000000")
@@ -109,7 +108,7 @@ p <- ggplot() +
   guides(color=guide_legend(ncol=2))
   png("Haiti.png"
       , width = 1080
-      , height = 1080
+      , height = 920
       , unit = "px")
   print(p)
   dev.off()
